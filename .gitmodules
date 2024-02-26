@@ -1,0 +1,3 @@
+[submodule "Waymark-JS"]
+	path = Waymark-JS
+	url = https://github.com/OpenGIS/Waymark-JS
