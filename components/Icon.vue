@@ -19,6 +19,8 @@ const props = defineProps({
 });
 
 const iconNames = ref([
+	"ogis",
+
 	"polygon",
 	"polyline",
 	"marker",

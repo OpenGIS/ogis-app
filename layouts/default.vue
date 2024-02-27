@@ -1,7 +1,18 @@
 <template>
   <div id="app">
     <header>
-      <Icon name="polygon" size="32" color="black" text="Polygon" />
+      <Icon name="ogis" size="32" color="black" text="Open GIS" />
+
+      <nav>
+        <Icon name="polyline" size="32" color="black" text="Polyline" />
+        <Icon name="marker" size="32" color="black" text="Marker" />
+        <Icon name="circle" size="32" color="black" text="Circle" />
+        <Icon name="rectangle" size="32" color="black" text="Rectangle" />
+        <Icon name="freehand" size="32" color="black" text="Freehand" />
+        <Icon name="clear" size="32" color="black" text="Clear" />
+        <Icon name="select" size="32" color="black" text="Select" />
+        <Icon name="greatcircle" size="32" color="black" text="Great Circle" />
+      </nav>
     </header>
 
     <article>
@@ -24,12 +35,28 @@
     left: 0;
     width: 100%;
     height: 48px;
+
+    display: flex;
+
     background-color: #f0f0f0;
 
     img {
       padding: 10px;
       width: 32px;
       height: 32px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0;
+      gap: 10px;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
     }
   }
 
