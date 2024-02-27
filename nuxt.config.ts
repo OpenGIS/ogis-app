@@ -3,6 +3,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   app: {
+    rootId: "app",
+
     head: {
       link: [
         {
