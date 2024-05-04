@@ -1,5 +1,5 @@
 <script setup>
-// const { instance } = useEditor();
+const { instance } = useMapLibre();
 </script>
 
 <template>
