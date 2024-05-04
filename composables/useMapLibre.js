@@ -13,9 +13,10 @@ export function useMapLibre(useConfig = {}) {
 		// Create map Instance
 		instance.value = new Map({
 			container: "map",
-			style: "https://demotiles.maplibre.org/style.json", // stylesheet location
-			center: [-74.5, 40], // starting position [lng, lat]
-			zoom: 9, // starting zoom
+			style: "/assets/style/default.js",
+			// Format: [lng, lat]
+			center: [-128.427172, 50.782185],
+			zoom: 16,
 		});
 
 		// Load Configuration from file
