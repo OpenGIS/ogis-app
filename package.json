@@ -1,9 +1,9 @@
 {
-  "name": "nuxt-app",
+  "name": "OGIS.app",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "cp -R Waymark-JS/dist/ public/assets/waymark-js/ && nuxt build",
+    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
