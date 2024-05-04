@@ -7,18 +7,18 @@ export default defineNuxtConfig({
 
     head: {
       link: [
-        {
-          rel: "stylesheet",
-          href: "/assets/waymark-js/css/waymark-js.min.css",
-        },
+        // {
+        //   rel: "stylesheet",
+        //   href: "/assets/waymark-js/css/waymark-js.min.css",
+        // },
       ],
 
       script: [
         {
-          src: "https://code.jquery.com/jquery-3.7.1.min.js",
+          // src: "https://code.jquery.com/jquery-3.7.1.min.js",
         },
         {
-          src: "/assets/waymark-js/js/waymark-js.min.js",
+          // src: "/assets/waymark-js/js/waymark-js.min.js",
         },
       ],
     },
