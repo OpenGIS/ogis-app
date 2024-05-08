@@ -3,7 +3,7 @@
     <header>
       <Icon name="ogis" size="32" color="black" text="Open GIS" />
 
-      <nav>
+      <!--       <nav>
         <Icon name="polyline" size="32" color="black" text="Polyline" />
         <Icon name="marker" size="32" color="black" text="Marker" />
         <Icon name="circle" size="32" color="black" text="Circle" />
@@ -12,7 +12,7 @@
         <Icon name="clear" size="32" color="black" text="Clear" />
         <Icon name="select" size="32" color="black" text="Select" />
         <Icon name="greatcircle" size="32" color="black" text="Great Circle" />
-      </nav>
+      </nav> -->
     </header>
 
     <article>

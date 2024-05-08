@@ -13,7 +13,7 @@ export function useMapLibre(useConfig = {}) {
 		// Create map Instance
 		instance.value = new Map({
 			container: "map",
-			style: "/assets/style/default.js",
+			style: "/assets/style/default.json",
 			// Format: [lng, lat]
 			center: [-128.427172, 50.782185],
 			zoom: 16,
