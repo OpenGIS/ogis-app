@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <Icon name="ogis" size="32" color="black" text="Open GIS" />
+      <img src="/assets/img/ogis-logo.png" alt="Open GIS" />
 
       <!--       <nav>
         <Icon name="polyline" size="32" color="black" text="Polyline" />

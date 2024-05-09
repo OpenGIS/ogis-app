@@ -1,0 +1,15 @@
+{
+	"tilejson": "2.0.0",
+	"name": "Klokantech Terrain (free hillshading data)",
+	"id": "klokantech-terrain-freehills",
+	"attribution": "<a href=\"https://www.tilea.io/\" target=\"_blank\">&copy; Tilea.io</a> <a href=\"https://www.openmaptiles.org/\" target=\"_blank\">&copy; OpenMapTiles</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>",
+	"minzoom": 0,
+	"maxzoom": 20,
+	"bounds": [-180, -85.0511, 180, 85.0511],
+	"format": "png",
+	"type": "baselayer",
+	"tiles": [
+		"https://maps.netsyms.net/styles/klokantech-terrain-freehills/{z}/{x}/{y}.png"
+	],
+	"center": [0, 0, 2]
+}

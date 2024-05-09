@@ -20,6 +20,14 @@
         "https://ogis-tiles.s3.ca-central-1.amazonaws.com/tiles/{z}/{x}/{y}.pbf"
       ],
       "maxzoom": 14
+    },
+    "natural_earth_shaded_relief": {
+      "maxzoom": 6,
+      "tileSize": 256,
+      "tiles": [
+        "https://klokantech.github.io/naturalearthtiles/tiles/natural_earth_2_shaded_relief.raster/{z}/{x}/{y}.png"
+      ],
+      "type": "raster"
     }
   },
   "glyphs": "https://ogis-tiles.s3.ca-central-1.amazonaws.com/fonts/{fontstack}/{range}.pbf",
@@ -28,6 +36,21 @@
       "id": "background",
       "type": "background",
       "paint": { "background-color": "hsl(47, 26%, 88%)" }
+    },
+    {
+      "id": "natural_earth",
+      "type": "raster",
+      "source": "natural_earth_shaded_relief",
+      "maxzoom": 20,
+      "paint": {
+        "raster-opacity": {
+          "base": 1.5,
+          "stops": [
+            [0, 0.6],
+            [6, 0.1]
+          ]
+        }
+      }
     },
     {
       "id": "landuse-residential",
