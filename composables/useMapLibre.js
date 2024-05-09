@@ -10,52 +10,40 @@ export function useMapLibre(useConfig = {}) {
 	config.value = { ...config.value, ...useConfig };
 
 	onMounted(() => {
+		//Get screen dimensions
+		const width = window.innerWidth;
+		const height = window.innerHeight;
+
+		// Set Map to this bounding box (Vancouver Island)
+		const bounds = [
+			[-129.168015, 48.1216],
+			[-122.640704, 51.06932],
+		];
+
+		// Calculate the center of the bounding box
+		const center = [
+			(bounds[0][0] + bounds[1][0]) / 2,
+			(bounds[0][1] + bounds[1][1]) / 2,
+		];
+
+		// Calculate the zoom level
+		const zoom = Math.min(
+			Math.log2(360 / (bounds[1][0] - bounds[0][0])),
+			Math.log2(180 / (bounds[1][1] - bounds[0][1])),
+		);
+
 		// Create map Instance
 		instance.value = new Map({
 			container: "map",
 			style: "/assets/style/default.json",
-			// Format: [lng, lat]
-			center: [-128.427172, 50.782185],
-			zoom: 16,
+			center: center,
+			zoom: zoom,
 		});
 
-		// Load Configuration from file
-		// fetch("/assets/config/default.json")
-		// 	.then((response) => response.json())
-		// 	.then((config) => {
-		// 		// Initialise with our options
-		// 		instance.value.init(config);
-
-		// 		// Load GeoJSON
-		// 		instance.value.load_json({
-		// 			type: "FeatureCollection",
-		// 			features: [
-		// 				{
-		// 					type: "Feature",
-		// 					properties: {
-		// 						type: "beer",
-		// 						title: "The Scarlet Ibis",
-		// 						description:
-		// 							"Great pub, great food! Especially after a Long Ride 🚴🍔🍟🍺🍺💤",
-		// 						image_large_url: "https://www.waymark.dev/assets/geo/pub.jpeg",
-		// 					},
-		// 					geometry: {
-		// 						type: "Point",
-		// 						coordinates: [-128.0094, 50.6539],
-		// 					},
-		// 				},
-		// 			],
-		// 		});
-
-		// 		// After a slight delay, open the popup
-		// 		setTimeout(() => {
-		// 			// Iterate over the Leaflet data layer
-		// 			instance.value.map_data.eachLayer((layer) => {
-		// 				// Open popop
-		// 				layer.openPopup();
-		// 			});
-		// 		}, 1000);
-		// 	});
+		// Set the map to the screen dimensions
+		instance.value.fitBounds(bounds, {
+			padding: { top: 0, bottom: 0, left: 0, right: 0 },
+		});
 	});
 
 	return {

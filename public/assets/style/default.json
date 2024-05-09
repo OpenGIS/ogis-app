@@ -9,7 +9,6 @@
     "openmaptiles:mapbox:owner": "openmaptiles",
     "openmaptiles:mapbox:source:url": "mapbox://openmaptiles.4qljc88t"
   },
-  "center": [49.726033, -125.095139],
   "zoom": 14,
   "bearing": 0,
   "pitch": 0,
@@ -28,6 +27,14 @@
         "https://klokantech.github.io/naturalearthtiles/tiles/natural_earth_2_shaded_relief.raster/{z}/{x}/{y}.png"
       ],
       "type": "raster"
+    },
+    "contours": {
+      "type": "vector",
+      "tiles": [
+        "https://ogis-tiles.s3.ca-central-1.amazonaws.com/contours/{z}/{x}/{y}.pbf"
+      ],
+      "minzoom": 9,
+      "maxzoom": 14
     }
   },
   "glyphs": "https://ogis-tiles.s3.ca-central-1.amazonaws.com/fonts/{fontstack}/{range}.pbf",
@@ -174,6 +181,73 @@
         "line-dasharray": [0.5, 1]
       }
     },
+
+    {
+      "id": "contour_label",
+      "type": "symbol",
+      "metadata": {},
+      "source": "contours",
+      "source-layer": "contour",
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["in", "nth_line", 10, 5],
+        [">", "height", 0]
+      ],
+      "layout": {
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [15, 9.5],
+            [20, 12]
+          ]
+        },
+        "text-allow-overlap": false,
+        "symbol-avoid-edges": true,
+        "text-ignore-placement": false,
+        "symbol-placement": "line",
+        "text-padding": 10,
+        "text-rotation-alignment": "map",
+        "text-field": "{height} m",
+        "text-font": ["Noto Sans Regular"]
+      },
+      "paint": {
+        "text-color": "hsl(0, 0%, 37%)",
+        "text-halo-color": "hsla(0, 0%, 100%, 0.5)",
+        "text-halo-width": 1.5
+      }
+    },
+    {
+      "id": "contour_index",
+      "type": "line",
+      "source": "contours",
+      "source-layer": "contour",
+      "filter": ["all", [">", "height", 0], ["in", "nth_line", 10, 5]],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "hsl(0, 1%, 58%)",
+        "line-opacity": 0.4,
+        "line-width": 1.1
+      }
+    },
+    {
+      "id": "contour",
+      "type": "line",
+      "source": "contours",
+      "source-layer": "contour",
+      "filter": ["all", ["!in", "nth_line", 10, 5], [">", "height", 0]],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "hsl(0, 1%, 58%)",
+        "line-opacity": 0.3,
+        "line-width": 0.6
+      }
+    },
+
     {
       "id": "water",
       "type": "fill",
