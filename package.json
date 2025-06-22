@@ -1,21 +1,21 @@
 {
-  "name": "nuxt-app",
+  "name": "my-vue-app",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "cp -R Waymark-JS/dist/ public/assets/waymark-js/ && nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "copy": "cp -R Waymark-JS/dist/ public/assets/waymark-js/",
+    "dev": "npm run copy && vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "nuxt": "^3.10.3",
-    "vue": "^3.4.20",
-    "vue-router": "^4.3.0"
+    "less": "^4.3.0",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
-    "less": "^4.2.0",
-    "prettier": "^3.2.5"
+    "@vitejs/plugin-vue": "^5.2.3",
+    "vite": "^6.3.5"
   }
 }
