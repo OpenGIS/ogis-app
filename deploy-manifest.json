@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "routes": [
+    {
+      "path": "/*",
+      "target": "/index.html",
+      "status": 200,
+      "condition": {}
+    }
+  ]
+}
