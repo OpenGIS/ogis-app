@@ -1,7 +1,7 @@
 {
-  "name": "my-vue-app",
+  "name": "ogis-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "copy": "cp -R Waymark-JS/dist/ public/assets/waymark-js/",
