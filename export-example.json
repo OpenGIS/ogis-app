@@ -1,35 +1,33 @@
 {
-  "FeatureCollection": {
-    "type": "FeatureCollection",
-    "properties": {
-      "waymark_config": {
-        "map_options": {
-          "marker_types": [
-            {
-              "marker_title": "Pub",
-              "marker_shape": "marker",
-              "marker_size": "large",
-              "icon_type": "icon",
-              "marker_icon": "ion-beer",
-              "marker_colour": "#fbfbfb",
-              "icon_colour": "#754423"
-            }
-          ]
-        }
+  "type": "FeatureCollection",
+  "properties": {
+    "waymark_config": {
+      "map_options": {
+        "marker_types": [
+          {
+            "marker_title": "Pub",
+            "marker_shape": "marker",
+            "marker_size": "large",
+            "icon_type": "icon",
+            "marker_icon": "ion-beer",
+            "marker_colour": "#fbfbfb",
+            "icon_colour": "#754423"
+          }
+        ]
       }
-    },
-    "features": [
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [-2.548828125, 51.46769693762546]
-        },
-        "properties": {
-          "type": "pub",
-          "title": "Great place for a pint!"
-        }
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.548828125, 51.46769693762546]
+      },
+      "properties": {
+        "type": "pub",
+        "title": "Great place for a pint!"
       }
-    ]
-  }
+    }
+  ]
 }

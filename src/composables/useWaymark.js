@@ -2,6 +2,7 @@ import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useStateStore } from "@/stores/stateStore.js";
 import { useImport } from "@/composables/useImport.js";
+import { useWaymarkPopup } from "@/composables/useWaymarkPopup.js";
 import { Waymark_Config } from "@/classes/Waymark_Config.js";
 import { State } from "@/classes/State.js";
 
@@ -101,6 +102,9 @@ export function useWaymark() {
           const bounds = Waymark.value.country_code_to_bounds();
           Waymark.value.map.fitBounds(bounds);
         }
+        
+        // Initialize the Waymark popup enhancement
+        useWaymarkPopup();
       })
       .catch((error) => {
         console.error("Error loading Waymark JS assets:", error);
@@ -128,12 +132,16 @@ export function useWaymark() {
         const config = state.value.getConfig();
 
         // Make sure Waymark config reflects the current state config
-        for (const key in config.map_options) {
-          if (config.map_options.hasOwnProperty(key)) {
-            // Use the config's value directly
-            Waymark.value.config.map_options[key] = config.getMapOption(key);
-          }
-        }
+        // Get all map option keys through the method
+        const mapOptionKeys = config.getMapOptionKeys();
+        
+        // Update each option via methods
+        mapOptionKeys.forEach(key => {
+          // Get the value using the getter method
+          const value = config.getMapOption(key);
+          // Update the Waymark map config (we can't modify the third-party library)
+          Waymark.value.config.map_options[key] = value;
+        });
       }
 
       // Clear and reload

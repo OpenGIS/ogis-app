@@ -271,6 +271,15 @@ export class Waymark_Config {
   getMapOption(key) {
     return key ? this.map_options[key] : undefined;
   }
+  
+  /**
+   * Get all map option keys
+   * 
+   * @returns {string[]} Array of map option keys
+   */
+  getMapOptionKeys() {
+    return Object.keys(this.map_options);
+  }
 
   /**
    * Set specific map option

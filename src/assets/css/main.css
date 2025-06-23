@@ -1,0 +1,87 @@
+/* Types editor popup styles */
+.types-editor-popup .leaflet-popup-content {
+  min-width: 650px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.types-editor-popup .leaflet-popup-content-wrapper {
+  background: #f8f8f8;
+  padding: 0;
+}
+
+.types-editor-popup .leaflet-popup-tip {
+  background: #f8f8f8;
+}
+
+/* Make sure the popup closes when clicked outside */
+.leaflet-popup-pane {
+  z-index: 1000 !important;
+}
+
+.og-content-container {
+  padding: 5px;
+  overflow-x: auto;
+  overflow-y: auto;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Additional styling for popup content */
+.og-content-container table {
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+}
+
+.og-content-container input,
+.og-content-container select {
+  max-width: 100%;
+  font-size: 0.9em;
+}
+
+/* Constrain leaflet popup dimensions */
+.leaflet-popup {
+  max-width: 300px;
+  max-height: 340px;
+}
+
+.leaflet-popup-content-wrapper {
+  height: 340px;
+  width: 300px;
+  overflow-y: auto;
+}
+
+/* Ensure leaflet popups adapt to our container */
+.leaflet-popup-content {
+  margin: 10px;
+  width: auto !important;
+  max-width: 320px;
+}
+
+/* Hide the popup tip for a cleaner look */
+.types-editor-popup .leaflet-popup-tip-container {
+  visibility: hidden;
+}
+
+/* Enhance popup fade animation */
+.leaflet-fade-anim .leaflet-popup {
+  transition: opacity 0.25s linear;
+  opacity: 0;
+}
+
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+  opacity: 1;
+}
+
+/* Ensure content stays visible during fade */
+.leaflet-popup.leaflet-zoom-animated {
+  transition:
+    transform 0.25s cubic-bezier(0, 0, 0.25, 1),
+    opacity 0.25s linear;
+}
+
+/* Keep content visible until animation completes */
+.leaflet-popup-content-wrapper {
+  transition: opacity 0.2s linear;
+}

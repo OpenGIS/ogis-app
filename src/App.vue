@@ -1,16 +1,32 @@
 <script setup>
-import Menu from "@/components/Menu.vue";
+import UI from "@/components/UI.vue";
+
 import Map from "@/components/Map.vue";
 import Data from "@/components/Data.vue";
-import Types from "@/components/Types.vue";
 </script>
 
 <template>
-  <Menu />
-  <Types />
+  <UI />
 
   <Map />
-  <Data />
+  <!-- <Data /> -->
 </template>
 
-<style scoped></style>
+<style>
+body {
+  width: 100%;
+  height: 100%;
+  background: #b42714;
+}
+/* body and #app should take up the entire screen  */
+#app {
+  /*position: absolute;*/
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  .ui {
+    z-index: 1000;
+  }
+}
+</style>

@@ -7,7 +7,9 @@
     "copy": "cp -R Waymark-JS/dist/ public/assets/waymark-js/",
     "dev": "npm run copy && vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "less": "^4.3.0",
@@ -16,6 +18,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
-    "vite": "^6.3.5"
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^18.0.1",
+    "jsdom": "^26.1.0",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
   }
 }

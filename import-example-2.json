@@ -10,8 +10,8 @@
             "marker_size": "medium",
             "icon_type": "icon",
             "marker_icon": "ion-camera",
-            "marker_colour": "purple",
-            "icon_colour": "red",
+            "marker_colour": "#fbfbfb",
+            "icon_colour": "#000",
             "marker_display": "1",
             "marker_submission": "1"
           },

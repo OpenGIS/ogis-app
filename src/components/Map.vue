@@ -15,8 +15,12 @@ onMounted(() => {
 
 <style lang="less">
 #waymark-map {
-  width: 100%;
+  position: absolute;
+  width: calc(100% - 60px);
   height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
 
   .leaflet-top.leaflet-left,
   #waymark-data {

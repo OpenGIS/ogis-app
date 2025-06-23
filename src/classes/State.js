@@ -19,8 +19,7 @@ export class State {
   constructor(data = {}) {
     // Initialize with default structure
     this.type = "FeatureCollection";
-    // Always deep clone features to ensure reactivity
-    this.features = data.features ? JSON.parse(JSON.stringify(data.features)) : [];
+    this.features = data.features || [];
     this.properties = {
       waymark_config: data.config instanceof Waymark_Config 
         ? data.config 
@@ -191,6 +190,24 @@ export class State {
   }
 
   /**
+   * Get line types from the configuration
+   * 
+   * @returns {Array} The line types array
+   */
+  getLineTypes() {
+    return this.getConfigOption('line_types') || [];
+  }
+
+  /**
+   * Get shape types from the configuration
+   * 
+   * @returns {Array} The shape types array
+   */
+  getShapeTypes() {
+    return this.getConfigOption('shape_types') || [];
+  }
+
+  /**
    * Set marker types in the configuration
    * Creates a deep copy to ensure independence
    * 
@@ -201,6 +218,32 @@ export class State {
     // Create a deep copy of the marker types to ensure they're independent
     const markerTypesCopy = JSON.parse(JSON.stringify(markerTypes));
     return this.setConfigOption('marker_types', markerTypesCopy);
+  }
+
+  /**
+   * Set line types in the configuration
+   * Creates a deep copy to ensure independence
+   * 
+   * @param {Array} lineTypes - The line types array
+   * @returns {State} This instance for chaining
+   */
+  setLineTypes(lineTypes) {
+    // Create a deep copy of the line types to ensure they're independent
+    const lineTypesCopy = JSON.parse(JSON.stringify(lineTypes));
+    return this.setConfigOption('line_types', lineTypesCopy);
+  }
+
+  /**
+   * Set shape types in the configuration
+   * Creates a deep copy to ensure independence
+   * 
+   * @param {Array} shapeTypes - The shape types array
+   * @returns {State} This instance for chaining
+   */
+  setShapeTypes(shapeTypes) {
+    // Create a deep copy of the shape types to ensure they're independent
+    const shapeTypesCopy = JSON.parse(JSON.stringify(shapeTypes));
+    return this.setConfigOption('shape_types', shapeTypesCopy);
   }
 
   /**
@@ -225,8 +268,18 @@ export class State {
    * @returns {State} A new State instance with the same data
    */
   clone() {
-    // Clone the config
-    const clonedConfig = this.getConfig().clone();
+    // Create a new Waymark_Config to ensure it's a deep clone
+    const clonedConfig = new Waymark_Config();
+    
+    // Copy all map options from the original config
+    const originalConfig = this.getConfig();
+    for (const key in originalConfig.map_options) {
+      if (originalConfig.map_options.hasOwnProperty(key)) {
+        // Deep clone each option value to ensure complete independence
+        const value = JSON.parse(JSON.stringify(originalConfig.getMapOption(key)));
+        clonedConfig.setMapOption(key, value);
+      }
+    }
     
     // Create a new State with deep-cloned features and config
     return new State({

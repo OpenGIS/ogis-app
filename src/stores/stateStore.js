@@ -190,6 +190,12 @@ export const useStateStore = defineStore("state", () => {
     });
   }
 
+  const showTypeEditor = ref(false);
+
+  const toggleTypeEditor = () => {
+    showTypeEditor.value = !showTypeEditor.value;
+  };
+
   return {
     Waymark,
     isReady,
@@ -200,5 +206,7 @@ export const useStateStore = defineStore("state", () => {
     canUndo,
     canRedo,
     clear,
+    showTypeEditor,
+    toggleTypeEditor,
   };
 });
