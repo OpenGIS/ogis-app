@@ -1,10 +1,10 @@
 /**
  * Waymark_Config class
- * 
+ *
  * Defines the configuration options for Waymark JS maps.
  * Manages map options including marker types, line types, and tile layers.
  * Provides methods for setting and getting map options with deep cloning to ensure independence.
- * 
+ *
  * This class is responsible for:
  * - Maintaining configuration structure for Waymark maps
  * - Providing access to specific configuration sections (marker_types, line_types, tile_layers)
@@ -14,7 +14,7 @@
 export class Waymark_Config {
   /**
    * Create a new Waymark_Config instance
-   * 
+   *
    * @param {Object} config - Optional initial configuration
    */
   constructor(config = {}) {
@@ -245,7 +245,7 @@ export class Waymark_Config {
   /**
    * Update the configuration with new values
    * Creates deep clones of all values to ensure independence
-   * 
+   *
    * @param {Object} config - The new configuration options
    */
   updateConfig(config = {}) {
@@ -256,7 +256,9 @@ export class Waymark_Config {
       for (const key in config.map_options) {
         if (config.map_options.hasOwnProperty(key)) {
           // Deep clone each value to ensure independence
-          this.map_options[key] = JSON.parse(JSON.stringify(config.map_options[key]));
+          this.map_options[key] = JSON.parse(
+            JSON.stringify(config.map_options[key]),
+          );
         }
       }
     }
@@ -264,17 +266,17 @@ export class Waymark_Config {
 
   /**
    * Get specific map option
-   * 
+   *
    * @param {string} key - The option key
    * @returns {any} The option value
    */
   getMapOption(key) {
     return key ? this.map_options[key] : undefined;
   }
-  
+
   /**
    * Get all map option keys
-   * 
+   *
    * @returns {string[]} Array of map option keys
    */
   getMapOptionKeys() {
@@ -284,7 +286,7 @@ export class Waymark_Config {
   /**
    * Set specific map option
    * Creates a deep copy of the value to ensure independence
-   * 
+   *
    * @param {string} key - The option key
    * @param {any} value - The option value
    */
@@ -294,16 +296,16 @@ export class Waymark_Config {
       this.map_options[key] = JSON.parse(JSON.stringify(value));
     }
   }
-  
+
   /**
    * Create a clone of this Waymark_Config
    * Creates a completely new Waymark_Config instance with deep-cloned data
-   * 
+   *
    * @returns {Waymark_Config} A new Waymark_Config instance with the same data
    */
   clone() {
     const clonedConfig = new Waymark_Config();
-    
+
     // Copy all map options from this config
     for (const key in this.map_options) {
       if (this.map_options.hasOwnProperty(key)) {
@@ -312,7 +314,7 @@ export class Waymark_Config {
         clonedConfig.setMapOption(key, value);
       }
     }
-    
+
     return clonedConfig;
   }
 }

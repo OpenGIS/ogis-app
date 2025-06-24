@@ -1,4 +1,4 @@
-import { ref, watch } from "vue";
+import * as waymarkDemo from "@/assets/geo/waymark-demo.json";
 import { storeToRefs } from "pinia";
 import { useStateStore } from "@/stores/stateStore.js";
 import { useImport } from "@/composables/useImport.js";
@@ -98,11 +98,16 @@ export function useWaymark() {
 
           Waymark.value.load_json(geoJSON);
         } else {
-          // If no active data, load random country
-          const bounds = Waymark.value.country_code_to_bounds();
-          Waymark.value.map.fitBounds(bounds);
+          // Load demo data if no features are present
+          Waymark.value.load_json(waymarkDemo);
+
+          //Trigger click on .menu-bar .logo
+          const logo = document.querySelector(".menu-bar .logo");
+          if (logo) {
+            logo.click();
+          }
         }
-        
+
         // Initialize the Waymark popup enhancement
         useWaymarkPopup();
       })
@@ -134,9 +139,9 @@ export function useWaymark() {
         // Make sure Waymark config reflects the current state config
         // Get all map option keys through the method
         const mapOptionKeys = config.getMapOptionKeys();
-        
+
         // Update each option via methods
-        mapOptionKeys.forEach(key => {
+        mapOptionKeys.forEach((key) => {
           // Get the value using the getter method
           const value = config.getMapOption(key);
           // Update the Waymark map config (we can't modify the third-party library)

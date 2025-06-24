@@ -8,7 +8,7 @@
     "dev": "npm run copy && vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "vitest watch",
     "test:watch": "vitest"
   },
   "dependencies": {
