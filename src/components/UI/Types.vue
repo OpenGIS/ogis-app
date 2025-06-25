@@ -81,8 +81,6 @@ const switchTab = (tab) => {
 
 <style lang="less">
 .types-editor {
-  padding: 10px;
-
   .tab-navigation {
     display: flex;
     border-bottom: 1px solid #ddd;

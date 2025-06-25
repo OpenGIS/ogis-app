@@ -19,27 +19,6 @@
   z-index: 1000 !important;
 }
 
-.og-content-container {
-  padding: 5px;
-  overflow-x: auto;
-  overflow-y: auto;
-  opacity: 1;
-  transition: opacity 0.2s ease-in-out;
-}
-
-/* Additional styling for popup content */
-.og-content-container table {
-  width: 100%;
-  display: block;
-  overflow-x: auto;
-}
-
-.og-content-container input,
-.og-content-container select {
-  max-width: 100%;
-  font-size: 0.9em;
-}
-
 /* Constrain leaflet popup dimensions */
 .leaflet-popup {
   max-width: 300px;
@@ -60,9 +39,9 @@
 }
 
 /* Hide the popup tip for a cleaner look */
-.types-editor-popup .leaflet-popup-tip-container {
+/*.types-editor-popup .leaflet-popup-tip-container {
   visibility: hidden;
-}
+}*/
 
 /* Enhance popup fade animation */
 .leaflet-fade-anim .leaflet-popup {

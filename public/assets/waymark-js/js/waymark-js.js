@@ -11128,122 +11128,124 @@ function Waymark_Map_Editor() {
 		// ========= TYPE PREVIEW =========
 		// ================================
 
-		var jq_overlay_preview_container = jQuery("<div />").addClass(
-			"waymark-overlay-preview waymark-" + layer_type + "-preview",
-		);
-		//Pre-defined config_types
-		for (var i in config_types) {
-			var type_title = config_types[i][layer_type + "_title"];
+		const create_jq_overlay_preview = function (layer_type = "marker") {
+			const jq_overlay_preview = jQuery("<div />").addClass(
+				"waymark-overlay-preview waymark-" + layer_type + "-preview",
+			);
+			//Pre-defined config_types
+			for (var i in config_types) {
+				var type_title = config_types[i][layer_type + "_title"];
 
-			//Get Key
-			var type_key = Waymark.make_key(type_title);
-			var type = Waymark.get_type(layer_type, type_key);
+				//Get Key
+				var type_key = Waymark.make_key(type_title);
+				var type = Waymark.get_type(layer_type, type_key);
 
-			// Markers, Lines & Shapes...
+				// Markers, Lines & Shapes...
 
-			var overlay_preview = jQuery("<div />")
-				.addClass("waymark-type")
-				.data("type_key", type_key)
-				.attr("title", type_title);
-			switch (layer_type) {
-				//Markers
-				case "marker":
-					//Icon
-					var icon_data = Waymark.build_icon_data(type);
+				var overlay_preview = jQuery("<div />")
+					.addClass("waymark-type")
+					.data("type_key", type_key)
+					.attr("title", type_title);
+				switch (layer_type) {
+					//Markers
+					case "marker":
+						//Icon
+						var icon_data = Waymark.build_icon_data(type);
 
-					//Marker DIV
-					overlay_preview
-						.addClass(icon_data.className)
-						.html(icon_data.html)
-						.css({
-							width: icon_data.iconSize[0],
-							height: icon_data.iconSize[1],
-						});
+						//Marker DIV
+						overlay_preview
+							.addClass(icon_data.className)
+							.html(icon_data.html)
+							.css({
+								width: icon_data.iconSize[0],
+								height: icon_data.iconSize[1],
+							});
 
-					break;
+						break;
 
-				//Lines
-				case "line":
-					overlay_preview.addClass("waymark-line").append(
-						jQuery("<div />").css({
-							margin: "15px 0",
-							height: "1px",
-							borderTop: type.line_weight + "px solid " + type.line_colour,
-						}),
-					);
-
-					break;
-
-				//Shapes
-				case "shape":
-					overlay_preview
-						.addClass("waymark-shape")
-						.css({
-							border: "3px solid " + type.shape_colour,
-						})
-						.append(
+					//Lines
+					case "line":
+						overlay_preview.addClass("waymark-line").append(
 							jQuery("<div />").css({
-								height: "20px",
-								background: type.shape_colour,
-								opacity: type.fill_opacity,
+								margin: "15px 0",
+								height: "1px",
+								borderTop: type.line_weight + "px solid " + type.line_colour,
 							}),
 						);
 
-					break;
-			}
+						break;
 
-			//Wrap
-			var overlay_preview_wrap = jQuery("<div />")
-				.addClass("waymark-overlay-wrap waymark-" + layer_type + "-wrap")
-				.attr("title", type_title);
+					//Shapes
+					case "shape":
+						overlay_preview
+							.addClass("waymark-shape")
+							.css({
+								border: "3px solid " + type.shape_colour,
+							})
+							.append(
+								jQuery("<div />").css({
+									height: "20px",
+									background: type.shape_colour,
+									opacity: type.fill_opacity,
+								}),
+							);
 
-			//Append actual preview
-			overlay_preview_wrap.append(overlay_preview);
+						break;
+				}
 
-			//On Click
-			overlay_preview_wrap.on("click", function () {
-				overlay_preview = jQuery(".waymark-type", jQuery(this));
+				//Wrap
+				var overlay_preview_wrap = jQuery("<div />")
+					.addClass("waymark-overlay-wrap waymark-" + layer_type + "-wrap")
+					.attr("title", type_title);
 
-				var clicked_type_key = overlay_preview.data("type_key");
+				//Append actual preview
+				overlay_preview_wrap.append(overlay_preview);
 
-				//Set selected
-				jQuery("option", jq_layer_type_select).each(function () {
-					if (overlay_preview.val() == clicked_type_key) {
-						overlay_preview.attr("selected", "selected");
-					} else {
-						overlay_preview.removeAttr("selected");
-					}
+				//On Click
+				overlay_preview_wrap.on("click", function () {
+					overlay_preview = jQuery(".waymark-type", jQuery(this));
+
+					var clicked_type_key = overlay_preview.data("type_key");
+
+					//Set selected
+					jQuery("option", jq_layer_type_select).each(function () {
+						if (overlay_preview.val() == clicked_type_key) {
+							overlay_preview.attr("selected", "selected");
+						} else {
+							overlay_preview.removeAttr("selected");
+						}
+					});
+
+					//Update actual select
+					jq_layer_type_select.val(clicked_type_key);
+					jq_layer_type_select.trigger("change");
+
+					//Active
+					jQuery(".waymark-" + layer_type + "-wrap", jq_overlay_preview).each(
+						function () {
+							jQuery(this).removeClass("waymark-active");
+						},
+					);
+					overlay_preview
+						.parent(".waymark-" + layer_type + "-wrap")
+						.addClass("waymark-active");
 				});
 
-				//Update actual select
-				jq_layer_type_select.val(clicked_type_key);
-				jq_layer_type_select.trigger("change");
+				//Current?
+				if (type_key == Waymark.make_key(feature.properties.type)) {
+					overlay_preview_wrap.addClass("waymark-active");
 
-				//Active
-				jQuery(
-					".waymark-" + layer_type + "-wrap",
-					jq_overlay_preview_container,
-				).each(function () {
-					jQuery(this).removeClass("waymark-active");
-				});
-				overlay_preview
-					.parent(".waymark-" + layer_type + "-wrap")
-					.addClass("waymark-active");
-			});
-
-			//Current?
-			if (type_key == Waymark.make_key(feature.properties.type)) {
-				overlay_preview_wrap.addClass("waymark-active");
-
-				//Prepend
-				jq_overlay_preview_container.prepend(overlay_preview_wrap);
-			} else {
-				//Append
-				jq_overlay_preview_container.append(overlay_preview_wrap);
+					//Prepend
+					jq_overlay_preview.prepend(overlay_preview_wrap);
+				} else {
+					//Append
+					jq_overlay_preview.append(overlay_preview_wrap);
+				}
 			}
-		}
+			return jq_overlay_preview;
+		};
 
-		list.append(jq_overlay_preview_container);
+		list.append(create_jq_overlay_preview(layer_type));
 
 		// ================================
 		// ============= DATA =============
