@@ -71,8 +71,26 @@ onBeforeUnmount(() => {
         @click="openAbout"
         :class="{ active: isAboutPopupOpen }"
       >
-        <img src="/assets/img/ogis-logo.png" />
-        Open<br />GIS
+        <!-- <img src="/assets/img/ogis-logo.png" />
+        Open<br />GIS -->
+
+        <table>
+          <tr>
+            <td>
+              <img
+                src="/assets/img/earth-icon.svg"
+                width="13px"
+                height="13px"
+                alt="O"
+              />
+            </td>
+            <td>G</td>
+          </tr>
+          <tr>
+            <td>I</td>
+            <td>S</td>
+          </tr>
+        </table>
       </div>
       <div class="history">
         <button :disabled="!store.canUndo" @click="undo">
@@ -138,8 +156,34 @@ onBeforeUnmount(() => {
       background-color: rgba(255, 255, 255, 0.2);
     }
 
-    img {
+    table {
       width: 40px;
+      height: 40px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      text-align: center;
+
+      tr {
+        &:first-child {
+          td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          }
+        }
+
+        td {
+          width: 50%;
+          padding: 3px;
+          font-size: 14px;
+          font-weight: bold;
+          &:first-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+          }
+        }
+      }
+
+      img {
+        padding-top: 1px;
+      }
     }
   }
 
