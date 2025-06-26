@@ -8659,7 +8659,7 @@ function Waymark_Map() {
 			});
 
 			if (show_initially) {
-				// decorator.addTo(Waymark.map);
+				decorator.addTo(Waymark.map);
 			}
 
 			layer.direction_layer = decorator;
@@ -9677,20 +9677,14 @@ function Waymark_Map() {
 			// Remove it
 			Waymark.map.removeLayer(layer);
 			Waymark.map_data.removeLayer(layer);
+
+			// Direction layer?
+			if (typeof layer.direction_layer === "object") {
+				Waymark.map.removeLayer(layer.direction_layer);
+			}
 		});
 
 		Waymark.map_data.clearLayers();
-
-		// Clear sub groups
-		// ["marker", "line", "shape"].forEach(function (layer_type) {
-		// 	// Iterate over each object key
-		// 	for (const key in Waymark[layer_type + "_sub_groups"]) {
-		// 		if (Waymark[layer_type + "_sub_groups"].hasOwnProperty(key)) {
-		// 			// Remove it
-		// 			Waymark.map.removeLayer(Waymark[layer_type + "_sub_groups"][key]);
-		// 		}
-		// 	}
-		// });
 	};
 
 	/*
