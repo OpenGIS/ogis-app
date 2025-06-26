@@ -31,6 +31,8 @@ onMounted(() => {
   .leaflet-popup {
     .leaflet-popup-content-wrapper {
       width: 300px;
+      height: 340px;
+
       overflow-y: auto;
 
       .leaflet-popup-content {
