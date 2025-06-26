@@ -57,7 +57,10 @@
       </a>
     </div>
 
-    <div class="version">v1.0.0</div>
+    <a class="version" href="https://github.com/OpenGIS/ogis-app">
+      v1.0.0
+      <i class="fa fa-github"></i>
+    </a>
   </div>
 </template>
 
@@ -125,6 +128,11 @@
     font-size: 0.8em;
     color: #666;
     margin-top: 10px;
+    text-decoration: none;
+
+    i {
+      font-size: 32px;
+    }
   }
 }
 </style>
