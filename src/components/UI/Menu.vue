@@ -72,9 +72,6 @@ onBeforeUnmount(() => {
         @click="openAbout"
         :class="{ active: isAboutPopupOpen }"
       >
-        <!-- <img src="/assets/img/ogis-logo.png" />
-        Open<br />GIS -->
-
         <table>
           <tr>
             <td>
@@ -191,6 +188,7 @@ onBeforeUnmount(() => {
   .history {
     position: relative;
     height: 30px;
+    margin-top: 10px;
     border: none;
     button {
       margin: 0;

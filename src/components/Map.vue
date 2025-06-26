@@ -26,5 +26,34 @@ onMounted(() => {
   #waymark-data {
     display: none;
   }
+
+  .leaflet-popup-content {
+    .waymark-info {
+      width: 210px;
+      // height: 272px;
+
+      .waymark-info-title {
+        margin-bottom: 7px;
+        input {
+          padding: 5px !important;
+          width: 200px !important;
+        }
+      }
+      .waymark-info-image_large_url {
+        margin-bottom: 7px;
+
+        input {
+          width: 135px;
+        }
+
+        .waymark-hover {
+          img {
+            width: 210px;
+            height: 210px;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

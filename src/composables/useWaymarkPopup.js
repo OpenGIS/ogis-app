@@ -57,7 +57,7 @@ export function useWaymarkPopup() {
     // Create the Edit Types button with the appropriate text
     const editTypesButton = document.createElement("button");
     editTypesButton.className = "waymark-custom-types-button";
-    editTypesButton.innerHTML = `<i class="ion-edit"></i> Edit ${featureType.charAt(0).toUpperCase() + featureType.slice(1)} Types`;
+    editTypesButton.innerHTML = `<i class="fa fa-cog"></i> Edit Types`;
     editTypesButton.style.padding = "5px 10px";
     editTypesButton.style.border = "1px solid #ccc";
     editTypesButton.style.borderRadius = "4px";
