@@ -156,13 +156,87 @@ export function useExport() {
 
     // Create download link
     const url = URL.createObjectURL(blob);
+    
+    // Enhanced browser/device detection
+    const userAgent = navigator.userAgent;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+    const isFirefox = /firefox/i.test(userAgent);
+    const isMobileFirefox = isMobile && isFirefox;
+    const isAndroid = /android/i.test(userAgent);
+    
+    // For mobile Firefox and some Android browsers, we need to use a different approach
+    if (isMobileFirefox || (isAndroid && isFirefox)) {
+      // Create a temporary form to submit the data
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(exportContent);
+      form.style.display = 'none';
+      
+      // Try data URL approach for Firefox mobile
+      try {
+        const dataUrl = 'data:application/json;charset=utf-8,' + encodeURIComponent(exportContent);
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = filename;
+        link.style.display = 'none';
+        
+        document.body.appendChild(link);
+        
+        // Force a user interaction by showing an alert first
+        if (confirm('Your file is ready to download. Click OK to download ' + filename)) {
+          // Multiple attempts with different methods
+          let downloaded = false;
+          
+          // Method 1: Try standard click
+          try {
+            link.click();
+            downloaded = true;
+          } catch (e) {
+            console.log('Standard click failed, trying alternative');
+          }
+          
+          // Method 2: Try with event
+          if (!downloaded) {
+            try {
+              const event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+              });
+              link.dispatchEvent(event);
+              downloaded = true;
+            } catch (e) {
+              console.log('Event dispatch failed, trying manual method');
+            }
+          }
+          
+          // Method 3: Navigate to data URL as last resort
+          if (!downloaded) {
+            // This will open in a new tab but at least provides access to the data
+            window.open(dataUrl, '_blank');
+            alert('The file opened in a new tab. Please save it manually with the filename: ' + filename);
+          }
+        }
+        
+        // Clean up
+        setTimeout(() => {
+          if (document.body.contains(link)) {
+            document.body.removeChild(link);
+          }
+        }, 100);
+        
+        URL.revokeObjectURL(url);
+        return;
+        
+      } catch (e) {
+        console.log('Data URL method failed, falling back to blob URL');
+      }
+    }
+    
     const a = document.createElement("a");
     a.href = url;
     a.download = filename;
-    
-    // Different approaches for different browsers/devices
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     
     if (isMobile || isSafari) {
       // For mobile/Safari, try to force download by setting additional attributes
@@ -171,7 +245,7 @@ export function useExport() {
       a.setAttribute('rel', 'noopener noreferrer');
       
       // iOS Safari specific handling
-      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      if (/iPhone|iPad|iPod/i.test(userAgent)) {
         // For iOS, we need to handle this differently
         const link = document.createElement('a');
         link.href = url;
