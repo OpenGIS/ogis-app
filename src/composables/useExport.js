@@ -18,9 +18,9 @@ export function useExport() {
    * The configuration is stored in the properties.waymark_config object
    * of the GeoJSON FeatureCollection
    *
-   * @returns {void} Triggers a file download with the exported data
+   * @returns {Promise<void>} Triggers a file download with the exported data
    */
-  const exportData = () => {
+  const exportData = async () => {
     if (
       !state.value ||
       !state.value.getFeatures() ||
@@ -123,20 +123,103 @@ export function useExport() {
 
     // Create a blob with the data
     const blob = new Blob([exportContent], { type: mimeType });
+    
+    // Generate timestamp-based filename
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+    const timestamp = `${year}-${month}-${day}-${hour}-${minute}`;
+    const filename = `ogis-map-${timestamp}.${fileExtension}`;
 
-    // Create a download link
+    // Try to use the modern File System Access API if available
+    if ('showSaveFilePicker' in window) {
+      try {
+        const fileHandle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [{
+            description: 'GeoJSON files',
+            accept: { 'application/json': ['.geojson'] }
+          }]
+        });
+        const writable = await fileHandle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return;
+      } catch (err) {
+        // User cancelled or API not supported, fall through to alternative methods
+        console.log('File System Access API not available or cancelled, using fallback');
+      }
+    }
+
+    // Create download link
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `waymark-map-export.${fileExtension}`;
+    a.download = filename;
+    
+    // Different approaches for different browsers/devices
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    
+    if (isMobile || isSafari) {
+      // For mobile/Safari, try to force download by setting additional attributes
+      a.style.display = 'none';
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+      
+      // iOS Safari specific handling
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // For iOS, we need to handle this differently
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        
+        document.body.appendChild(link);
+        
+        // Create a click event
+        const clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: false
+        });
+        
+        link.dispatchEvent(clickEvent);
+        
+        // Clean up
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 100);
+        
+        return;
+      }
+    }
 
-    // Trigger the download
+    // Standard approach for desktop browsers
     document.body.appendChild(a);
-    a.click();
+    
+    // Use both click() and MouseEvent for better compatibility
+    try {
+      a.click();
+    } catch (e) {
+      // Fallback for browsers that block programmatic clicks
+      const clickEvent = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
+      a.dispatchEvent(clickEvent);
+    }
 
     // Clean up
     setTimeout(() => {
-      document.body.removeChild(a);
+      if (document.body.contains(a)) {
+        document.body.removeChild(a);
+      }
       URL.revokeObjectURL(url);
     }, 100);
   };
