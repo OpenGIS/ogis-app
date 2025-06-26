@@ -1,7 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import Menu from "@/components/UI/Menu.vue";
-import Status from "@/components/UI/Status.vue";
 import Types from "@/components/UI/Types.vue";
 
 import { useStateStore } from "@/stores/stateStore.js";

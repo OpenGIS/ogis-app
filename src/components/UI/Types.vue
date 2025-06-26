@@ -157,6 +157,10 @@ const switchTab = (tab) => {
               position: relative;
             }
           }
+
+          button.add-type {
+            width: 100%;
+          }
         }
 
         /* Edit Form */
@@ -164,6 +168,15 @@ const switchTab = (tab) => {
           width: 260px;
           padding-left: 15px;
           background: white;
+
+          .delete-type {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: red;
+          }
 
           .form-group {
             display: flex;

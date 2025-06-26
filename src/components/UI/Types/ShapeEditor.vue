@@ -1,5 +1,5 @@
 <script setup>
-import { watch, reactive, computed, ref } from "vue";
+import { watch, reactive, computed, ref, nextTick } from "vue";
 
 import { storeToRefs } from "pinia";
 import { useStateStore } from "@/stores/stateStore.js";
@@ -12,6 +12,9 @@ const { redrawData } = useWaymark();
 
 // Track which shape type is currently being edited
 const selectedIndex = ref(0);
+
+// Reference to the preview grid for scrolling
+const previewGrid = ref(null);
 
 // Create a computed property for shape types
 const shapeTypes = computed(() => {
@@ -81,6 +84,50 @@ function updateShapeTypes() {
   }
   redrawData();
 }
+
+// Add a new shape type
+function addShapeType() {
+  if (state.value) {
+    // Use the State class method to add a new shape type
+    const newState = state.value.clone();
+    newState.addShapeType();
+
+    // Update the store with the new state
+    state.value = newState;
+
+    // Select the newly added shape type
+    selectedIndex.value = newState.getShapeTypes().length - 1;
+
+    // Scroll to the newly added item after the DOM updates
+    nextTick(() => {
+      if (previewGrid.value) {
+        const lastItem = previewGrid.value.querySelector(
+          ".preview-item:last-child",
+        );
+        if (lastItem) {
+          lastItem.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
+    });
+  }
+}
+
+// Delete the currently selected shape type
+function deleteShapeType() {
+  if (state.value && localShapeTypes.length > 1 && selectedIndex.value >= 0) {
+    // Use the State class method to delete the shape type
+    const newState = state.value.clone();
+    newState.deleteShapeType(selectedIndex.value);
+
+    // Update the store with the new state
+    state.value = newState;
+
+    // Adjust selected index if necessary
+    if (selectedIndex.value >= newState.getShapeTypes().length) {
+      selectedIndex.value = Math.max(0, newState.getShapeTypes().length - 1);
+    }
+  }
+}
 </script>
 <template>
   <div
@@ -88,7 +135,11 @@ function updateShapeTypes() {
     v-if="isReady && localShapeTypes.length"
   >
     <!-- Scrollable Grid of Previews -->
-    <div class="preview-grid">
+    <div class="preview-grid" ref="previewGrid">
+      <button class="add-type" @click="addShapeType" title="Add New Shape Type">
+        Add Type
+      </button>
+
       <div
         v-for="(type, index) in localShapeTypes"
         :key="index"
@@ -106,6 +157,14 @@ function updateShapeTypes() {
 
     <!-- Single Edit Form -->
     <div class="edit-form" v-if="selectedShapeType">
+      <button
+        v-if="localShapeTypes.length > 1"
+        class="delete-type"
+        @click="deleteShapeType"
+        title="Delete This Shape Type"
+      >
+        Delete
+      </button>
       <div class="form-grid">
         <div class="form-input">
           <label>Title</label>

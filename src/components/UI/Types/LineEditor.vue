@@ -1,5 +1,5 @@
 <script setup>
-import { watch, reactive, computed, ref } from "vue";
+import { watch, reactive, computed, ref, nextTick } from "vue";
 
 import { storeToRefs } from "pinia";
 import { useStateStore } from "@/stores/stateStore.js";
@@ -12,6 +12,9 @@ const { redrawData } = useWaymark();
 
 // Track which line type is currently being edited
 const selectedIndex = ref(0);
+
+// Reference to the preview grid for scrolling
+const previewGrid = ref(null);
 
 // Create a computed property for line types
 const lineTypes = computed(() => {
@@ -81,11 +84,58 @@ function updateLineTypes() {
   }
   redrawData();
 }
+
+// Add a new line type
+function addLineType() {
+  if (state.value) {
+    // Use the State class method to add a new line type
+    const newState = state.value.clone();
+    newState.addLineType();
+
+    // Update the store with the new state
+    state.value = newState;
+
+    // Select the newly added line type
+    selectedIndex.value = newState.getLineTypes().length - 1;
+
+    // Scroll to the newly added item after the DOM updates
+    nextTick(() => {
+      if (previewGrid.value) {
+        const lastItem = previewGrid.value.querySelector(
+          ".preview-item:last-child",
+        );
+        if (lastItem) {
+          lastItem.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
+    });
+  }
+}
+
+// Delete the currently selected line type
+function deleteLineType() {
+  if (state.value && localLineTypes.length > 1 && selectedIndex.value >= 0) {
+    // Use the State class method to delete the line type
+    const newState = state.value.clone();
+    newState.deleteLineType(selectedIndex.value);
+
+    // Update the store with the new state
+    state.value = newState;
+
+    // Adjust selected index if necessary
+    if (selectedIndex.value >= newState.getLineTypes().length) {
+      selectedIndex.value = Math.max(0, newState.getLineTypes().length - 1);
+    }
+  }
+}
 </script>
 <template>
   <div class="type-editor line-editor" v-if="isReady && localLineTypes.length">
     <!-- Scrollable Grid of Previews -->
-    <div class="preview-grid">
+    <div class="preview-grid" ref="previewGrid">
+      <button class="add-type" @click="addLineType" title="Add New Line Type">
+        Add Type
+      </button>
       <div
         v-for="(type, index) in localLineTypes"
         :key="index"
@@ -103,6 +153,14 @@ function updateLineTypes() {
 
     <!-- Single Edit Form -->
     <div class="edit-form" v-if="selectedLineType">
+      <button
+        v-if="localLineTypes.length > 1"
+        class="delete-type"
+        @click="deleteLineType"
+        title="Delete This Line Type"
+      >
+        Delete
+      </button>
       <div class="form-grid">
         <div class="form-input">
           <label>Title</label>

@@ -1,5 +1,5 @@
 <script setup>
-import { watch, reactive, computed, ref } from "vue";
+import { watch, reactive, computed, ref, nextTick } from "vue";
 
 import { storeToRefs } from "pinia";
 import { useStateStore } from "@/stores/stateStore.js";
@@ -12,6 +12,9 @@ const { redrawData } = useWaymark();
 
 // Track which marker type is currently being edited
 const selectedIndex = ref(0);
+
+// Reference to the preview grid for scrolling
+const previewGrid = ref(null);
 
 // Create a computed property for marker types
 const markerTypes = computed(() => {
@@ -81,6 +84,50 @@ function updateMarkerTypes() {
   }
   redrawData();
 }
+
+// Add a new marker type
+function addMarkerType() {
+  if (state.value) {
+    // Use the State class method to add a new marker type
+    const newState = state.value.clone();
+    newState.addMarkerType();
+
+    // Update the store with the new state
+    state.value = newState;
+
+    // Select the newly added marker type
+    selectedIndex.value = newState.getMarkerTypes().length - 1;
+
+    // Scroll to the newly added item after the DOM updates
+    nextTick(() => {
+      if (previewGrid.value) {
+        const lastItem = previewGrid.value.querySelector(
+          ".preview-item:last-child",
+        );
+        if (lastItem) {
+          lastItem.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
+    });
+  }
+}
+
+// Delete the currently selected marker type
+function deleteMarkerType() {
+  if (state.value && localMarkerTypes.length > 1 && selectedIndex.value >= 0) {
+    // Use the State class method to delete the marker type
+    const newState = state.value.clone();
+    newState.deleteMarkerType(selectedIndex.value);
+
+    // Update the store with the new state
+    state.value = newState;
+
+    // Adjust selected index if necessary
+    if (selectedIndex.value >= newState.getMarkerTypes().length) {
+      selectedIndex.value = Math.max(0, newState.getMarkerTypes().length - 1);
+    }
+  }
+}
 </script>
 <template>
   <div
@@ -88,7 +135,14 @@ function updateMarkerTypes() {
     v-if="isReady && localMarkerTypes.length"
   >
     <!-- Scrollable Grid of Previews -->
-    <div class="preview-grid">
+    <div class="preview-grid" ref="previewGrid">
+      <button
+        class="add-type"
+        @click="addMarkerType"
+        title="Add New Marker Type"
+      >
+        Add Type
+      </button>
       <div
         v-for="(type, index) in localMarkerTypes"
         :key="index"
@@ -107,6 +161,14 @@ function updateMarkerTypes() {
 
     <!-- Single Edit Form -->
     <div class="edit-form" v-if="selectedMarkerType">
+      <button
+        v-if="localMarkerTypes.length > 1"
+        class="delete-type"
+        @click="deleteMarkerType"
+        title="Delete This Marker Type"
+      >
+        Delete
+      </button>
       <div class="form-grid">
         <div class="form-input">
           <label>Title</label>

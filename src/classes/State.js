@@ -260,6 +260,122 @@ export class State {
   }
 
   /**
+   * Add a new marker type to the configuration
+   * Creates a default marker type and adds it to the existing types
+   *
+   * @returns {State} This instance for chaining
+   */
+  addMarkerType() {
+    const newMarkerType = {
+      marker_title: "New Marker",
+      marker_shape: "marker",
+      marker_size: "medium",
+      icon_type: "icon",
+      marker_icon: "ion-location",
+      marker_colour: "#70af00",
+      icon_colour: "#ffffff",
+      marker_display: "1",
+      marker_submission: "1",
+    };
+
+    const currentTypes = this.getMarkerTypes();
+    const newTypes = [...currentTypes, newMarkerType];
+    return this.setMarkerTypes(newTypes);
+  }
+
+  /**
+   * Add a new line type to the configuration
+   * Creates a default line type and adds it to the existing types
+   *
+   * @returns {State} This instance for chaining
+   */
+  addLineType() {
+    const newLineType = {
+      line_title: "New Line",
+      line_colour: "#30d100",
+      line_weight: "3",
+      line_opacity: "0.7",
+      line_display: "1",
+      line_submission: "1",
+    };
+
+    const currentTypes = this.getLineTypes();
+    const newTypes = [...currentTypes, newLineType];
+    return this.setLineTypes(newTypes);
+  }
+
+  /**
+   * Add a new shape type to the configuration
+   * Creates a default shape type and adds it to the existing types
+   *
+   * @returns {State} This instance for chaining
+   */
+  addShapeType() {
+    const newShapeType = {
+      shape_title: "New Shape",
+      shape_colour: "#3cbc47",
+      fill_opacity: "0.5",
+      shape_display: "1",
+      shape_submission: "1",
+    };
+
+    const currentTypes = this.getShapeTypes();
+    const newTypes = [...currentTypes, newShapeType];
+    return this.setShapeTypes(newTypes);
+  }
+
+  /**
+   * Delete a marker type from the configuration by index
+   * Removes the marker type at the specified index
+   *
+   * @param {number} index - The index of the marker type to delete
+   * @returns {State} This instance for chaining
+   */
+  deleteMarkerType(index) {
+    const currentTypes = this.getMarkerTypes();
+    if (index < 0 || index >= currentTypes.length) {
+      return this; // Invalid index, no change
+    }
+
+    const newTypes = currentTypes.filter((_, i) => i !== index);
+    return this.setMarkerTypes(newTypes);
+  }
+
+  /**
+   * Delete a line type from the configuration by index
+   * Removes the line type at the specified index
+   *
+   * @param {number} index - The index of the line type to delete
+   * @returns {State} This instance for chaining
+   */
+  deleteLineType(index) {
+    const currentTypes = this.getLineTypes();
+    if (index < 0 || index >= currentTypes.length) {
+      return this; // Invalid index, no change
+    }
+
+    const newTypes = currentTypes.filter((_, i) => i !== index);
+    return this.setLineTypes(newTypes);
+  }
+
+  /**
+   * Delete a shape type from the configuration by index
+   * Removes the shape type at the specified index
+   *
+   * @param {number} index - The index of the shape type to delete
+   * @returns {State} This instance for chaining
+   */
+  deleteShapeType(index) {
+    const currentTypes = this.getShapeTypes();
+    if (index < 0 || index >= currentTypes.length) {
+      return this; // Invalid index, no change
+    }
+
+    const newTypes = currentTypes.filter((_, i) => i !== index);
+    return this.setShapeTypes(newTypes);
+  }
+
+  /**
    * Convert to plain object for serialization
    *
    * @returns {Object} A plain object representation

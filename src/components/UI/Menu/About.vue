@@ -2,19 +2,20 @@
   <div class="about-popup">
     <h2>Open GIS</h2>
 
-    <p>
-      The free, Open-Source app for creating, editing and sharing meaningful
-      maps.
+    <p class="lead">
+      The free, Open-Source app for creating and editing meaningful maps in the
+      browser.
     </p>
 
-    <h3>Features</h3>
-    <ul>
-      <li>Runs offline in your browser</li>
-      <li>Import GeoJSON, KML and GPX</li>
-      <li>Customise how Overlays appear with Types</li>
-      <li>Undo/redo functionality</li>
-      <li>Export to save your map (and Types) in GeoJSON format</li>
-    </ul>
+    <p>
+      This is the demo Map. Click an Overlay to Try out the Editor, or click
+      "Clear" to start your own map.
+    </p>
+    <p>
+      Click "Export" to save to a GeoJSON file which includes your custom Types.
+    </p>
+
+    <p><b>Built With:</b></p>
 
     <div class="logos">
       <a href="https://vuejs.org/" target="_blank">
@@ -56,12 +57,6 @@
       </a>
     </div>
 
-    <p>
-      This is the demo Map. Click an Overlay to Try out the Editor, or click
-      "Clear" to start your own map. Your Map will be saved in your browser's
-      local storage, so you can come back to it later.
-    </p>
-
     <div class="version">v1.0.0</div>
   </div>
 </template>
@@ -81,8 +76,13 @@
 
   p {
     margin: 10px 0;
-    font-size: 0.9em;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 110%;
+    &.lead {
+      font-size: 1.2em;
+
+      margin-bottom: 15px;
+    }
   }
 
   ul {
