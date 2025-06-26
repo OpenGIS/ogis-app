@@ -27,33 +27,47 @@ onMounted(() => {
     display: none;
   }
 
-  .leaflet-popup-content {
-    .waymark-info {
-      width: 210px;
-      // height: 272px;
+  /* Constrain leaflet popup dimensions */
+  .leaflet-popup {
+    .leaflet-popup-content-wrapper {
+      width: 300px;
+      overflow-y: auto;
 
-      .waymark-info-title {
-        margin-bottom: 7px;
-        input {
-          padding: 5px !important;
-          width: 200px !important;
-        }
-      }
-      .waymark-info-image_large_url {
-        margin-bottom: 7px;
+      .leaflet-popup-content {
+        .waymark-info {
+          width: 210px;
 
-        input {
-          width: 135px;
-        }
+          .waymark-info-title {
+            margin-bottom: 7px;
+            input {
+              padding: 5px !important;
+              width: 200px !important;
+            }
+          }
+          .waymark-info-image_large_url {
+            margin-bottom: 7px;
 
-        .waymark-hover {
-          img {
-            width: 210px;
-            height: 210px;
+            input {
+              width: 135px;
+            }
+
+            .waymark-hover {
+              img {
+                width: 210px;
+                height: 210px;
+              }
+            }
           }
         }
       }
     }
+  }
+}
+
+/* Mobile portrait  */
+@media (max-width: 600px) {
+  .leaflet-popup-content-wrapper {
+    width: 280px !important;
   }
 }
 </style>
