@@ -84,7 +84,6 @@ const switchTab = (tab) => {
   .tab-navigation {
     display: flex;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 15px;
 
     .tab-button {
       background: #f5f5f5;

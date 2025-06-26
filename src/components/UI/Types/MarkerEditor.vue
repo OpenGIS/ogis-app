@@ -104,10 +104,8 @@ function updateMarkerTypes() {
 
     <!-- Single Edit Form -->
     <div class="edit-form" v-if="selectedMarkerType">
-      <h3>Edit Marker Type: {{ selectedMarkerType.marker_title }}</h3>
-      
       <div class="form-grid">
-        <div class="form-group">
+        <div class="form-input">
           <label>Title</label>
           <input
             type="text"
@@ -119,41 +117,55 @@ function updateMarkerTypes() {
         </div>
 
         <div class="form-group">
-          <label>Shape</label>
-          <select
-            v-model="selectedMarkerType.marker_shape"
-            @change="updateMarkerTypes"
-          >
-            <option value="marker">Marker</option>
-            <option value="circle">Circle</option>
-            <option value="rectangle">Rectangle</option>
-          </select>
+          <div class="form-input">
+            <label>Shape</label>
+            <select
+              v-model="selectedMarkerType.marker_shape"
+              @change="updateMarkerTypes"
+            >
+              <option value="marker">Marker</option>
+              <option value="circle">Circle</option>
+              <option value="rectangle">Rectangle</option>
+            </select>
+          </div>
+
+          <div class="form-input">
+            <label>Size</label>
+            <select
+              v-model="selectedMarkerType.marker_size"
+              @change="updateMarkerTypes"
+            >
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">
-          <label>Size</label>
-          <select
-            v-model="selectedMarkerType.marker_size"
-            @change="updateMarkerTypes"
-          >
-            <option value="small">Small</option>
-            <option value="medium">Medium</option>
-            <option value="large">Large</option>
-          </select>
+          <div class="form-input">
+            <label>Marker Colour</label>
+            <input
+              type="color"
+              v-model="selectedMarkerType.marker_colour"
+              class="colour-picker"
+              @change="updateMarkerTypes"
+              @input="updateMarkerTypes"
+            />
+          </div>
+          <div class="form-input">
+            <label>Icon Colour</label>
+            <input
+              type="color"
+              v-model="selectedMarkerType.icon_colour"
+              class="colour-picker"
+              @change="updateMarkerTypes"
+              @input="updateMarkerTypes"
+            />
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>Colour</label>
-          <input
-            type="color"
-            v-model="selectedMarkerType.marker_colour"
-            class="colour-picker"
-            @change="updateMarkerTypes"
-            @input="updateMarkerTypes"
-          />
-        </div>
-
-        <div class="form-group">
+        <div class="form-input">
           <label>Icon Type</label>
           <select
             v-model="selectedMarkerType.icon_type"
@@ -161,11 +173,11 @@ function updateMarkerTypes() {
           >
             <option value="icon">Icon</option>
             <option value="text">Text</option>
-            <option value="html">HTML</option>
+            <!-- <option value="html">HTML</option> -->
           </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-input">
           <label>Icon</label>
           <input
             type="text"
@@ -175,123 +187,103 @@ function updateMarkerTypes() {
             @blur="updateMarkerTypes"
           />
         </div>
-
-        <div class="form-group">
-          <label>Icon Colour</label>
-          <input
-            type="color"
-            v-model="selectedMarkerType.icon_colour"
-            class="colour-picker"
-            @change="updateMarkerTypes"
-            @input="updateMarkerTypes"
-          />
-        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 .marker-editor {
-  margin: 10px 0;
-}
-
-.preview-grid {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 10px 0;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #f9f9f9;
-
-  .preview-item {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    border: 2px solid transparent;
+  padding-top: 10px;
+  .preview-grid {
+    float: left;
+    width: 80px;
+    margin-right: 10px;
+    height: 275px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #d2d2d2;
     border-radius: 4px;
-    cursor: pointer;
+    background: #fff;
+
+    .preview-item {
+      padding: 5px 10px;
+      border-bottom: 1px solid #d2d2d2;
+      &:hover {
+        border-color: #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      &.active {
+        background-color: #f1f1f1;
+      }
+
+      .type-preview {
+        margin-bottom: 5px;
+      }
+
+      .preview-title {
+        font-size: 11px;
+        text-align: center;
+        line-height: 1.2;
+        max-width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .waymark-type-preview {
+        position: relative;
+      }
+    }
+  }
+
+  .edit-form {
+    width: 260px;
+    padding-left: 15px;
     background: white;
-    transition: all 0.2s ease;
-    min-width: 80px;
 
-    &:hover {
-      border-color: #ccc;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    &.active {
-      border-color: #007cba;
-      background-color: #f0f8ff;
-    }
-
-    .type-preview {
-      margin-bottom: 5px;
-    }
-
-    .preview-title {
-      font-size: 11px;
-      text-align: center;
-      line-height: 1.2;
-      max-width: 60px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-}
-
-.edit-form {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 20px;
-  background: white;
-
-  h3 {
-    margin: 0 0 20px 0;
-    color: #333;
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-
-    label {
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #555;
-    }
-
-    input, select {
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-
-      &:focus {
-        outline: none;
-        border-color: #007cba;
-        box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.2);
+    .form-group {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      .form-input {
+        width: 90px;
       }
     }
 
-    .colour-picker {
-      width: 60px;
-      height: 40px;
-      padding: 0;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      cursor: pointer;
+    .form-input {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: bold;
+        color: #555;
+      }
+
+      input,
+      select {
+        margin-bottom: 7px;
+        padding: 5px 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+
+        &:focus {
+          outline: none;
+          border-color: #007cba;
+          box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.2);
+        }
+      }
+
+      .colour-picker {
+        width: 60px;
+        height: 40px;
+        padding: 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+      }
     }
   }
 }

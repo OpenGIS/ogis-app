@@ -5,15 +5,6 @@
   overflow-y: auto;
 }
 
-.types-editor-popup .leaflet-popup-content-wrapper {
-  background: #f8f8f8;
-  padding: 0;
-}
-
-.types-editor-popup .leaflet-popup-tip {
-  background: #f8f8f8;
-}
-
 /* Make sure the popup closes when clicked outside */
 .leaflet-popup-pane {
   z-index: 1000 !important;

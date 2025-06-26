@@ -47,15 +47,16 @@ const hasFeatures = computed(() => {
 
 // On load and on device rotation, set the menu-bar to be the height of the viewport
 onMounted(() => {
-  // Set the menu-bar height to the viewport height
-  document.querySelector(".menu-bar").style.height = `${window.innerHeight}px`;
+  updateMenuHeight();
 
   // Add event listener for window resize
   window.addEventListener("resize", updateMenuHeight);
 });
 // Update the menu-bar height on resize
 const updateMenuHeight = () => {
-  document.querySelector(".menu-bar").style.height = `${window.innerHeight}px`;
+  // Subtrack 10px for the top padding
+  document.querySelector(".menu-bar").style.height =
+    `${window.innerHeight - 10}px`;
 };
 // Clean up the event listener on component unmount
 onBeforeUnmount(() => {
