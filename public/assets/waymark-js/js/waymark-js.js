@@ -9677,6 +9677,11 @@ function Waymark_Map() {
 			// Remove it
 			Waymark.map.removeLayer(layer);
 			Waymark.map_data.removeLayer(layer);
+
+			// Direction layer?
+			if (typeof layer.direction_layer === "object") {
+				Waymark.map.removeLayer(layer.direction_layer);
+			}
 		});
 
 		Waymark.map_data.clearLayers();
