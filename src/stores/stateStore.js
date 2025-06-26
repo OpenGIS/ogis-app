@@ -208,6 +208,5 @@ export const useStateStore = defineStore("state", () => {
     clear,
     showTypeEditor,
     toggleTypeEditor,
-    savedState,
   };
 });
