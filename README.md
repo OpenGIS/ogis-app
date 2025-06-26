@@ -79,8 +79,6 @@ npm install
 npm run dev
 ```
 
-The build script will watch for changes to the JavaScript and CSS files.
+Open the provided `localhost` URL in your browser to view the app. Changes will automatically reload.
 
 Pull requests are welcome!
-
-> [!IMPORTANT] > [Waymark JS](https://www.waymark.dev/js) is required as a Git submodule (`/waymark-js` directory). View on [GitHub](https://github.com/OpenGIS/Waymark-JS/).
