@@ -113,6 +113,102 @@ const switchTab = (tab) => {
     .tab-pane {
       width: 100%;
       overflow-x: auto;
+
+      /* Type Editors */
+      .type-editor {
+        padding-top: 10px;
+
+        /* Previews */
+        .preview-grid {
+          float: left;
+          width: 80px;
+          margin-right: 10px;
+          height: 275px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          border: 1px solid #d2d2d2;
+          border-radius: 4px;
+          background: #fff;
+
+          .preview-item {
+            padding: 5px 10px;
+            border-bottom: 1px solid #d2d2d2;
+            &:hover {
+              border-color: #ccc;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            &.active {
+              background-color: #f1f1f1;
+            }
+
+            .preview-title {
+              margin-top: 6px;
+              font-size: 11px;
+              text-align: center;
+              line-height: 1.2;
+              max-width: 60px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .waymark-type-preview {
+              position: relative;
+            }
+          }
+        }
+
+        /* Edit Form */
+        .edit-form {
+          width: 260px;
+          padding-left: 15px;
+          background: white;
+
+          .form-group {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            .form-input {
+              width: 90px;
+            }
+          }
+
+          .form-input {
+            display: flex;
+            flex-direction: column;
+
+            label {
+              font-weight: bold;
+              color: #555;
+            }
+
+            input,
+            select {
+              margin-bottom: 7px;
+              padding: 5px 8px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              font-size: 14px;
+
+              &:focus {
+                outline: none;
+                border-color: #007cba;
+                box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.2);
+              }
+            }
+
+            .colour-picker {
+              width: 60px;
+              height: 40px;
+              padding: 0;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
     }
   }
 }

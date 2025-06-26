@@ -62,7 +62,7 @@
       local storage, so you can come back to it later.
     </p>
 
-    <div class="version">Version 1.0.0</div>
+    <div class="version">v1.0.0</div>
   </div>
 </template>
 
@@ -118,6 +118,9 @@
   }
 
   .version {
+    position: absolute;
+    top: 0;
+    right: 10px;
     text-align: right;
     font-size: 0.8em;
     color: #666;

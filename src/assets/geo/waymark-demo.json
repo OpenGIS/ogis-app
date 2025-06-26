@@ -55,7 +55,7 @@
             "icon_type": "icon",
             "marker_icon": "ion-android-alert",
             "marker_colour": "#da3d20",
-            "icon_colour": "white",
+            "icon_colour": "#ffffff",
             "marker_display": "1",
             "marker_submission": "1"
           },
@@ -88,7 +88,7 @@
             "icon_type": "icon",
             "marker_icon": "fa-flag",
             "marker_colour": "#70af00",
-            "icon_colour": "white",
+            "icon_colour": "#ffffff",
             "marker_display": "1",
             "marker_submission": "1"
           },
@@ -99,7 +99,7 @@
             "icon_type": "icon",
             "marker_icon": "fa-flag-checkered",
             "marker_colour": "#a43233",
-            "icon_colour": "white",
+            "icon_colour": "#ffffff",
             "marker_display": "1",
             "marker_submission": "1"
           },

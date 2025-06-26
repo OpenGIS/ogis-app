@@ -1,20 +1,169 @@
 <script setup>
+import { watch, reactive, computed, ref } from "vue";
+
 import { storeToRefs } from "pinia";
 import { useStateStore } from "@/stores/stateStore.js";
+import { useWaymark } from "@/composables/useWaymark.js";
+import { State } from "@/classes/State.js";
 
-const { isReady } = storeToRefs(useStateStore());
+const store = useStateStore();
+const { Waymark, state, isReady } = storeToRefs(store);
+const { redrawData } = useWaymark();
+
+// Track which line type is currently being edited
+const selectedIndex = ref(0);
+
+// Create a computed property for line types
+const lineTypes = computed(() => {
+  if (!state.value) return [];
+  return state.value.getLineTypes();
+});
+
+// Create a local reactive copy to work with
+const localLineTypes = reactive([]);
+
+// Watch for changes to line types from the store and update local copy
+watch(
+  lineTypes,
+  (newTypes) => {
+    // Clear the array
+    localLineTypes.length = 0;
+
+    // Fill with new values
+    if (newTypes && newTypes.length) {
+      newTypes.forEach((type) => {
+        // Create a copy of the type
+        const newType = { ...type };
+        localLineTypes.push(newType);
+      });
+    }
+
+    // Reset selection if it's out of bounds
+    if (selectedIndex.value >= localLineTypes.length) {
+      selectedIndex.value = 0;
+    }
+  },
+  { immediate: true, deep: true },
+);
+
+// Get the currently selected line type
+const selectedLineType = computed(() => {
+  if (!localLineTypes.length || selectedIndex.value < 0) return null;
+  return localLineTypes[selectedIndex.value];
+});
+
+// Select a line type for editing
+function selectLineType(index) {
+  selectedIndex.value = index;
+}
+
+// When local types are edited, update the store and Waymark
+function updateLineTypes() {
+  // Create a deep copy to ensure reactivity
+  const newTypes = JSON.parse(JSON.stringify(localLineTypes));
+
+  // Update state with new line types
+  if (state.value) {
+    // Clone the current config
+    const newConfig = state.value.getConfig().clone();
+
+    // Update just the line_types option
+    newConfig.setMapOption("line_types", newTypes);
+
+    // Create a completely new State object
+    const newState = new State({
+      features: JSON.parse(JSON.stringify(state.value.getFeatures())),
+      config: newConfig,
+    });
+
+    // Update the store with the new state
+    state.value = newState;
+  }
+  redrawData();
+}
 </script>
 <template>
-  <div class="line-editor" v-if="isReady">
-    <p>Line Type Editor will be implemented here.</p>
+  <div class="type-editor line-editor" v-if="isReady && localLineTypes.length">
+    <!-- Scrollable Grid of Previews -->
+    <div class="preview-grid">
+      <div
+        v-for="(type, index) in localLineTypes"
+        :key="index"
+        :class="['preview-item', { active: selectedIndex === index }]"
+        @click="selectLineType(index)"
+      >
+        <div
+          class="type-preview"
+          v-html="
+            Waymark.type_preview('line', Waymark.parse_type(type, 'line'))
+          "
+        ></div>
+      </div>
+    </div>
+
+    <!-- Single Edit Form -->
+    <div class="edit-form" v-if="selectedLineType">
+      <div class="form-grid">
+        <div class="form-input">
+          <label>Title</label>
+          <input
+            type="text"
+            v-model="selectedLineType.line_title"
+            placeholder="e.g. Trail, Road, Path"
+            @change="updateLineTypes"
+            @blur="updateLineTypes"
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="form-input">
+            <label>Colour</label>
+            <input
+              type="color"
+              v-model="selectedLineType.line_colour"
+              class="colour-picker"
+              @change="updateLineTypes"
+              @input="updateLineTypes"
+            />
+          </div>
+
+          <div class="form-input">
+            <label>Opacity</label>
+            <select
+              v-model="selectedLineType.line_opacity"
+              @change="updateLineTypes"
+            >
+              <option value="0.1">10%</option>
+              <option value="0.2">20%</option>
+              <option value="0.3">30%</option>
+              <option value="0.4">40%</option>
+              <option value="0.5">50%</option>
+              <option value="0.6">60%</option>
+              <option value="0.7">70%</option>
+              <option value="0.8">80%</option>
+              <option value="0.9">90%</option>
+              <option value="1.0">100%</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-input">
+          <label>Weight</label>
+          <select
+            v-model="selectedLineType.line_weight"
+            @change="updateLineTypes"
+          >
+            <option value="1">1px</option>
+            <option value="2">2px</option>
+            <option value="3">3px</option>
+            <option value="4">4px</option>
+            <option value="5">5px</option>
+            <option value="6">6px</option>
+            <option value="8">8px</option>
+            <option value="10">10px</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
-<style lang="less" scoped>
-.line-editor {
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-}
-</style>
