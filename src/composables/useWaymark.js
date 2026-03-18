@@ -24,13 +24,13 @@ export function useWaymark() {
     return new Promise((resolve, reject) => {
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "/assets/waymark-js/css/waymark-js.min.css";
+      link.href = `${import.meta.env.BASE_URL}assets/waymark-js/css/waymark-js.min.css`;
       link.onload = () => {
         const script = document.createElement("script");
         script.src = "https://code.jquery.com/jquery-3.7.1.min.js";
         script.onload = () => {
           const waymarkScript = document.createElement("script");
-          waymarkScript.src = "/assets/waymark-js/js/waymark-js.min.js";
+          waymarkScript.src = `${import.meta.env.BASE_URL}assets/waymark-js/js/waymark-js.min.js`;
           waymarkScript.onload = resolve;
           waymarkScript.onerror = reject;
           document.body.appendChild(waymarkScript);

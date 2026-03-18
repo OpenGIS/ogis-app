@@ -1,5 +1,7 @@
 <script setup>
 import { computed, ref, onMounted, onBeforeUnmount } from "vue";
+
+const baseUrl = import.meta.env.BASE_URL;
 import { useStateStore } from "@/stores/stateStore.js";
 import { useExport } from "@/composables/useExport.js";
 import { useWaymark } from "@/composables/useWaymark.js";
@@ -76,7 +78,7 @@ onBeforeUnmount(() => {
           <tr>
             <td>
               <img
-                src="/assets/img/earth-icon.svg"
+                :src="`${baseUrl}assets/img/earth-icon.svg`"
                 width="13px"
                 height="13px"
                 alt="O"

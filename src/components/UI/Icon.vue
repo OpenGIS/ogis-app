@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref, onMounted, watch } from "vue";
 
+const baseUrl = import.meta.env.BASE_URL;
+
 const props = defineProps({
 	name: {
 		type: String,
@@ -67,7 +69,7 @@ const svgPaths = ref([]);
 // Fetch and parse SVG content
 const fetchSvg = async (name) => {
 	try {
-		const response = await fetch(`/assets/img/icon/${name}.svg`);
+		const response = await fetch(`${baseUrl}assets/img/icon/${name}.svg`);
 		if (response.ok) {
 			const text = await response.text();
 			// Parse the SVG to extract viewBox and paths
@@ -143,7 +145,7 @@ const svgStyle = computed(() => {
 		<!-- Fallback if SVG parsing fails -->
 		<img
 			v-else-if="svgName"
-			:src="`/assets/img/icon/${svgName}.svg`"
+			:src="`${baseUrl}assets/img/icon/${svgName}.svg`"
 			:alt="text"
 			:title="text"
 			:width="size"

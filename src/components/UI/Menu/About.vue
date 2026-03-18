@@ -20,7 +20,7 @@
     <div class="logos">
       <a href="https://vuejs.org/" target="_blank">
         <img
-          src="/assets/img/vue-logo.svg"
+          :src="`${baseUrl}assets/img/vue-logo.svg`"
           alt="Vue JS Logo"
           width="24"
           height="24"
@@ -30,7 +30,7 @@
       <!-- Maintain 320x85 aspect ratio -->
       <a href="http://leafletjs.com" target="_blank">
         <img
-          src="/assets/img/leaflet-logo.svg"
+          :src="`${baseUrl}assets/img/leaflet-logo.svg`"
           alt="Leaflet JS Logo"
           height="32"
           width="120"
@@ -39,7 +39,7 @@
       </a>
       <a href="https://github.com/OpenGIS/Waymark-JS" target="_blank">
         <img
-          src="/assets/waymark-js/images/waymark-icon-red.png"
+          :src="`${baseUrl}assets/waymark-js/images/waymark-icon-red.png`"
           alt="Waymark Logo"
           width="32"
           height="32"
@@ -48,7 +48,7 @@
       </a>
       <a href="https://www.openstreetmap.org/" target="_blank">
         <img
-          src="/assets/img/osm-logo.svg"
+          :src="`${baseUrl}assets/img/osm-logo.svg`"
           alt="OpenStreetMap Logo"
           width="32"
           height="32"
@@ -63,6 +63,10 @@
     </a>
   </div>
 </template>
+
+<script setup>
+const baseUrl = import.meta.env.BASE_URL;
+</script>
 
 <style lang="less" scoped>
 .about-popup {
